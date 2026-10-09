@@ -36,7 +36,10 @@ export default function ToDoList() {
       delete copy[item];
       return copy;
     });
+    confirmTaskDeletion(null);
   };
+
+  const [taskToDelete, confirmTaskDeletion] = useState<string | null>(null);
 
   return (
     <div>
@@ -77,13 +80,33 @@ export default function ToDoList() {
             </div>
             <button
               className="todolist-trashbutton"
-              onClick={() => removeItem(item)}
+              onClick={() => confirmTaskDeletion(item)}
             >
               Del
             </button>
           </li>
         ))}
       </ul>
+
+      {taskToDelete !== null && (
+        <div className = "popup-overlay">
+          <div className = "popup-content">
+            <h3 id = "confirm-delete-title">
+              Delete Task?
+            </h3>
+            <p>
+              Are you sure you want to delete "{taskToDelete}"?
+            </p>
+            <button id = "popup-button" onClick={() => removeItem(taskToDelete)}>
+              Delete
+            </button>
+            <button id = "popup-button" onClick={() => confirmTaskDeletion(null)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
